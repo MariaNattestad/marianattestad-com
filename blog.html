@@ -1,0 +1,1131 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+	<meta charset="utf-8">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Plotting in R for Biologists | Maria Nattestad</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="MariaNattestad.com" />
+	<meta name="keywords" content="data visualization, genomics, circa, chordial, assemblytics, splitthreader, ribbon, omgenomics" />
+	<meta name="author" content="Maria Nattestad" />
+
+	<link href="https://fonts.googleapis.com/css?family=Raleway:100,300,400,700" rel="stylesheet">
+
+	<link rel="stylesheet" href="css/animate.css">
+	<link rel="stylesheet" href="css/icomoon.css">
+	<link rel="stylesheet" href="css/themify-icons.css">
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<link rel="stylesheet" href="css/magnific-popup.css">
+	<link rel="stylesheet" href="css/owl.carousel.min.css">
+	<link rel="stylesheet" href="css/owl.theme.default.min.css">
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/custom_styles.css">
+
+	<script src="js/modernizr-2.6.2.min.js"></script>
+
+	<!-- FOR IE9 below -->
+	<!--[if lt IE 9]>
+	<script src="js/respond.min.js"></script>
+	<![endif]-->
+
+	</head>
+	<body>
+		
+	<div class="gtco-loader"></div>
+	
+	<div id="page">
+		<nav class="gtco-nav" role="navigation">
+			<div class="gtco-container">
+				
+				<div class="row">
+					<div class="col-sm-2 col-xs-12">
+
+					</div>
+					<div class="col-xs-10 text-right menu-1">
+						<ul>
+							<li><a href="index.html">Portfolio</a></li>
+							<li><a href="chordial.html">Chordial</a></li>
+							<li><a href="connect.html">Connect</a></li>
+						</ul>
+					</div>
+				</div>
+				
+			</div>
+		</nav>
+		<header id="gtco-header" class="gtco-cover gtco-cover-xs gtco-inner" role="banner"
+			style="background: url(portfolioImages/covers/plotting-in-r.png) no-repeat; background-size: 100%;">
+			<div class="gtco-container">
+				<div class="row">
+					<div class="col-md-12 col-md-offset-0 text-left">
+						<div class="display-t">
+							<div class="display-tc">
+								<div class="row">
+									<div class="col-md-8">
+										<h1 class="no-margin">Plotting in R for Biologists</h1>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</header>
+		<!-- END #gtco-header -->
+
+		<!-- <div class="gtco-services gtco-section">
+			<div class="gtco-container">
+				<div class="row row-pb-sm">
+					<div class="col-md-8 col-md-offset-2 gtco-heading text-center">
+						<h2>1 minute demo video</h2>
+						
+					</div>
+				</div>
+			</div>
+		</div> -->
+
+		<div class="gtco-services gtco-section">
+			<div class="gtco-container">
+
+				<p>
+					Plotting in R for Biologists is a beginner course in data analysis and plotting with R, designed for biologists as a starting point for plotting your own data. This course can also be a good starting point for learning bioinformatics and computational biology because R is still what I use for most of my plots ranging from first getting my head around a dataset up to publication. R is what I recommend as the programming language for data analysis, statistics, and plotting for most scientists, including biologists and bioinformaticians.
+				</p>
+				<p>
+					I originally made this course to be a paid product, but I decided to give it away for free so more people can get use out of it. I do appreciate <a href="https://gum.co/PlottinginRforBiologists" target="_blank">donations</a> through Gumroad where you can also download the videos, scripts, and example data. Thank you so much to everyone who decided to contribute!
+				</p>
+				<p>Maria</p>
+
+				<hr>
+				<h3>Getting started:</h3>
+
+				Install <a href="https://cran.cnr.berkeley.edu/">R</a> and <a href="https://www.rstudio.com/products/rstudio/download/">RStudio</a>
+
+				<hr>
+				<h3>Lesson 1: Quick start</h3>
+				This lesson takes you from opening R for the first time and loading data to creating your first plot and saving the plot as a file on your computer
+
+				<figure>
+					<iframe width="560" height="315" src="https://www.youtube.com/embed/sf_li1XV664" frameborder="10" allowfullscreen></iframe>
+					<legend>
+						<a href="https://gum.co/PlottinginRforBiologists" target="_blank">Download practice data, scripts, and video files for offline viewing (for all 8 lessons)</a>
+					</legend>
+				</figure>
+				<pre>
+				# ==========================================================
+				#
+				#      Lesson 1 -- Hit the ground running
+				#      •   Reading in data
+				#      •   Creating a quick plot
+				#      •   Saving publication-quality plots in multiple
+				#          file formats (.png, .jpg, .pdf, and .tiff)
+				#
+				# ==========================================================
+
+				# Go to the packages tab in the bottom right part of Rstudio, click "Install" at the top, type in ggplot2, and hit Install
+				# Go to the Files tab in the bottom right part of Rstudio, navigate to where you can see the Lesson-01 folder.
+				# then click "More" and choose "Set As Working Directory"
+
+				library(ggplot2)
+
+				filename <- "Lesson-01/Encode_HMM_data.txt"
+
+				# Select a file and read the data into a data-frame
+				my_data <- read.csv(filename, sep="\t", header=FALSE)
+				# if this gives an error, make sure you have followed the steps above to set your working directory to the folder that contains the file you are trying to open
+
+				head(my_data)
+
+				# Rename the columns so we can plot things more easily without looking up which column is which
+				names(my_data)[1:4] <- c("chrom","start","stop","type")
+
+				# At any time, you can see what your data looks like using the head() function:
+				head(my_data)
+
+				# Now we can make an initial plot and see how it looks
+				ggplot(my_data,aes(x=chrom,fill=type)) + geom_bar()
+
+				# Save the plot to a file
+
+				# Different file formats:
+				png("Lesson-01/plot.png")
+				ggplot(my_data,aes(x=chrom,fill=type)) + geom_bar()
+				dev.off()
+
+				tiff("Lesson-01/plot.tiff")
+				ggplot(my_data,aes(x=chrom,fill=type)) + geom_bar()
+				dev.off()
+
+				jpeg("Lesson-01/plot.jpg")
+				ggplot(my_data,aes(x=chrom,fill=type)) + geom_bar()
+				dev.off()
+
+				pdf("Lesson-01/plot.pdf")
+				ggplot(my_data,aes(x=chrom,fill=type)) + geom_bar()
+				dev.off()
+
+				# High-resolution:
+				png("Lesson-01/plot_hi_res.png",1000,1000)
+				ggplot(my_data,aes(x=chrom,fill=type)) + geom_bar()
+				dev.off()
+				</pre>
+				<hr>
+
+				<h3>Lesson 2: Importing data from Excel, text files, and online sources</h3>
+				This lesson covers how to get various kinds of data into R in the first place. I show you step by step how to import data from an Excel spreadsheet into R.
+
+				<figure>
+					<iframe width="560" height="315" src="https://www.youtube.com/embed/5_qW0Vl0VQ4" frameborder="0" allowfullscreen></iframe>
+					<legend>
+					<a href="https://gum.co/PlottinginRforBiologists" target="_blank">Download practice data, scripts, and video files for offline viewing (for all 8 lessons)</a>
+					</legend>
+				</figure>
+				<pre>
+				# ==========================================================
+				#
+				#      Lesson 2 -- Importing and downloading data
+				#      •   Importing data from Excel
+				#      •   Downloading from UCSC
+				#      •   Downloading from ENSEMBL
+				#      •   Downloading from ENCODE
+				#
+				# ==========================================================
+
+				# Getting data from Excel
+				# Get the excel file from this paper: "Gene expression profiling of breast cell lines identifies potential new basal markers". Supplementary table 1
+				# Go into excel and save it as "Tab Delimited Text (.txt)"
+
+				filename <- "Lesson-02/micro_array_results_table1.txt"
+
+				my_data <- read.csv(filename, sep="\t", header=TRUE)
+				head(my_data)
+
+				# Where to find publicly available big data
+				# UCSC -- RefSeq genes from table browser
+				# Ensembl -- Mouse regulatory features MultiCell
+				# ENCODE -- HMM: wgEncodeBroadHmmGm12878HMM.bed
+
+				genes <- read.csv("Lesson-02/RefSeq_Genes", sep="\t", header=TRUE)
+				head(genes)
+				dim(genes)
+
+				regulatory_features <- read.csv("Lesson-02/RegulatoryFeatures_MultiCell.gff", sep="\t", header=FALSE)
+				head(regulatory_features)
+				dim(regulatory_features)
+
+				chromHMM <- read.csv("Lesson-02/wgEncodeBroadHmmGm12878HMM.bed", sep="\t", header=FALSE)
+				head(chromHMM)
+				dim(chromHMM)
+				</pre>
+				<hr>
+
+				<h3>Lesson 3: Interrogating your data</h3>
+				Here we cover several aspects of investigating your data in R:
+				<ol>
+				<li>How to get a quick view at a large file</li>
+				<li>How to get the number of rows and columns of the dataset</li>
+				<li>How to get mean, median, standard deviation, min, and max of numerical columns in your dataset</li>
+				<li>How to get counts by category, like how many times each chromosome shows up in the dataset</li>
+				</ol>
+				We also critically evaluate our first plot to see what aesthetic issues we are going to change in the next lesson
+
+				<figure>
+					<iframe width="560" height="315" src="https://www.youtube.com/embed/_VPmrDYpE4k" frameborder="0" allowfullscreen></iframe>
+					<legend>
+						<a href="https://gum.co/PlottinginRforBiologists" target="_blank">Download practice data, scripts, and video files for offline viewing (for all 8 lessons)</a>
+					</legend>
+				</figure>
+				<pre>
+				# ==========================================================
+				#
+				#      Lesson 3 -- Interrogating your data
+				#      •   Counting categorical variables
+				#      •   Mean, median, standard deviation
+				#      •   Finding issues
+				#
+				# ==========================================================
+
+				#############     We start this the same as in lesson 1     ###############
+
+				library(ggplot2)
+
+				filename <- "Lesson-03/Encode_HMM_data.txt"
+
+				# Select a file and read the data into a data-frame
+				my_data <- read.csv(filename, sep="\t", header=FALSE)
+				# if this gives an error, make sure you have followed the steps above to set your working directory to the folder that contains the file you are trying to open
+
+				head(my_data)
+
+				# Rename the columns so we can plot things more easily without looking up which column is which
+				names(my_data)[1:4] <- c("chrom","start","stop","type")
+
+				# At any time, you can see what your data looks like using the head() function:
+				head(my_data)
+
+				# Now we can make an initial plot and see how it looks
+				ggplot(my_data,aes(x=chrom,fill=type)) + geom_bar()
+
+				#############     Now let's take a closer look at our data     ###############
+
+				# We can see how big our data is:
+				dim(my_data)
+
+				# We can ask our data some questions:
+				summary(my_data)
+
+				# We can break these down by column to see more:
+				summary(my_data$chrom)
+
+				summary(my_data$type)
+
+				summary(my_data$start)
+				summary(my_data$stop)
+
+				# We can even make a new column by doing math on the other columns
+				my_data$size = my_data$stop - my_data$start
+
+				# So now there's a new column
+				head(my_data)
+
+				# Basic statistics:
+				summary(my_data$size)
+
+				mean(my_data$size)
+				sd(my_data$size)
+
+				median(my_data$size)
+				max(my_data$size)
+				min(my_data$size)
+
+				# Let's think about the issues and in the next lesson we will learn how to deal with them
+				ggplot(my_data,aes(x=chrom,fill=type)) + geom_bar()
+
+				# 1)    Chromosomes in the wrong order, and the "chr" prefixes don't fit on the x-axis
+				# 2)    Too many types
+				# 3)    Bad names for the types
+				</pre>
+				<hr>
+
+				<h3>Lesson 4: Filtering and cleaning up data</h3>
+
+				This is where things start to get hairy. I encountered several problems over and over again working with especially genomic data in R. This lesson will cover:
+				<ol>
+				<li>My best trick to fix chromosome ordering in a plot</li>
+				<li>Removing categories from a column, for instance containing feature or variant types</li>
+				<li>Renaming categories of a column (this is called renaming the levels of a factor)</li>
+				</ol>
+
+				<figure>
+					<iframe width="560" height="315" src="https://www.youtube.com/embed/QPwo7cEzMIk" frameborder="0" allowfullscreen></iframe>
+					<legend>
+						<a href="https://gum.co/PlottinginRforBiologists" target="_blank">Download practice data, scripts, and video files for offline viewing (for all 8 lessons)</a>
+					</legend>
+				</figure>
+				<pre>
+
+				# ==========================================================
+				#
+				#      Lesson 4 -- Filtering and cleaning up data
+				#      •   Removing "chr" prefixes
+				#      •   Getting chromosomes in the right order
+				#      •   Filtering out excess data
+				#      •   Renaming categories
+				#
+				# ==========================================================
+
+				#############     We start this the same as in lesson 1     ###############
+
+				library(ggplot2)
+
+				filename <- "Lesson-04/Encode_HMM_data.txt"
+
+				# Select a file and read the data into a data-frame
+				my_data <- read.csv(filename, sep="\t", header=FALSE)
+				# if this gives an error, make sure you have followed the steps above to set your working directory to the folder that contains the file you are trying to open
+
+				head(my_data)
+
+				# Rename the columns so we can plot things more easily without looking up which column is which
+				names(my_data)[1:4] <- c("chrom","start","stop","type")
+
+				# At any time, you can see what your data looks like using the head() function:
+				head(my_data)
+
+				# Now we can make an initial plot and see how it looks
+				ggplot(my_data,aes(x=chrom,fill=type)) + geom_bar()
+
+				#############     In Lesson 3 we decided on some issues to fix     #############
+
+				# 1)    Remove "chr" prefix from chromosome names
+				# 2)    Order the chromosomes correctly
+				# 3)    Pick a subset of the types and rename them
+
+				summary(my_data$chrom)
+				summary(my_data$type)
+
+				#############     Now let's address those issues     ###############
+
+				# Remove the "chr" prefix
+				my_data$chrom <- factor(gsub("chr", "", my_data$chrom))
+				# levels = possibilities/categories
+
+				# See the result
+				summary(my_data$chrom)
+
+				ggplot(my_data,aes(x=chrom,fill=type)) + geom_bar()
+
+				# Reorder the chromosomes numerically
+				seq(1,22)
+				c(seq(1,22),"X","Y")
+
+				my_data$chrom <- factor(my_data$chrom, levels=c(seq(1,22),"X","Y"))
+
+				summary(my_data$chrom)
+
+				ggplot(my_data,aes(x=chrom,fill=type)) + geom_bar()
+
+				# Much better!
+
+				# Now let's do something about those types.
+
+				summary(my_data$type)
+
+				# Filter to just a few types I'm interested in
+				my_data <- my_data[my_data$type %in% c("1_Active_Promoter","4_Strong_Enhancer","8_Insulator"), ]
+
+				summary(my_data$type)
+
+				# Rename the types
+				library(plyr) # this library has a useful revalue() function
+				my_data$type <- revalue(my_data$type, c("1_Active_Promoter"="Promoter", "4_Strong_Enhancer"="Enhancer","8_Insulator"="Insulator"))
+
+				summary(my_data$type)
+
+				# Check the plot again
+				ggplot(my_data,aes(x=chrom,fill=type)) + geom_bar()
+
+				</pre>
+				<hr>
+
+				<h3>Lesson 5: Tweaking everything in a plot</h3>
+				And I do mean <strong>everything</strong>:
+				<ol>
+				<li>Plot title, axis title, legend labels</li>
+				<li>Font, font size</li>
+				<li>Color schemes, where to find color palettes, mixing palettes from ColorBrewer to get a larger color palette</li>
+				<li>How to shuffle colors and then keep your best mix</li>
+				<li>Finding color-blind safe color palettes with ColorBrewer</li>
+				<li>Background color</li>
+				<li>Border around the plot and axes</li>
+				<li>Grid-lines</li>
+				<li>Tick-marks</li>
+				<li>Legend (remove legend, remove title of legend)</li>
+				</ol>
+				I also show you how to create a publication-style plot and apply the same theme to all your plots.
+
+				<figure>
+					<iframe width="560" height="315" src="https://www.youtube.com/embed/w1civKyJGKQ" frameborder="0" allowfullscreen></iframe>
+					<legend>
+						<a href="https://gum.co/PlottinginRforBiologists" target="_blank">Download practice data, scripts, and video files for offline viewing (for all 8 lessons)</a>
+					</legend>
+				</figure>
+				<pre>
+				# ==========================================================
+				#
+				#      Lesson 5 -- Tweaking everything in your plots
+				#      •   Text, axis labels
+				#      •   Legends
+				#      •   Color palettes
+				#      •   Sizes, fonts, line-widths, tick-marks,
+				#          grid-lines, and background-colors
+				#
+				# ==========================================================
+
+				# Loading, filtering, etc. from Lessons 1-4:
+				#            (shortened version)
+
+				library(ggplot2)
+
+				filename <- "Lesson-05/Encode_HMM_data.txt"
+				my_data <- read.csv(filename, sep="\t", header=FALSE)
+				names(my_data)[1:4] <- c("chrom","start","stop","type")
+
+				# Reorder chromosomes and cut their names down
+				my_data$chrom <- factor(gsub("chr", "", my_data$chrom, fixed=TRUE), levels=c(seq(1,22),"X","Y"))
+
+				# Filter to just a few types I'm interested in
+				my_data <- my_data[my_data$type %in% c("1_Active_Promoter","4_Strong_Enhancer","8_Insulator"),]
+
+				# Rename the types
+				library(plyr) # this library has a useful revalue() function
+				my_data$type <- revalue(my_data$type, c("1_Active_Promoter"="Promoter", "4_Strong_Enhancer"="Enhancer","8_Insulator"="Insulator"))
+
+				# Check the plot again
+				ggplot(my_data,aes(x=chrom,fill=type)) + geom_bar()
+
+				# ==========================================================
+
+				# The basics
+				ggplot(my_data,aes(x=chrom,fill=type)) + geom_bar()
+
+				# Add a plot title
+				ggplot(my_data,aes(x=chrom,fill=type)) + geom_bar() + labs(title="Regulatory features by chromosome")
+
+				# Change axis and legend labels
+				ggplot(my_data,aes(x=chrom,fill=type)) + geom_bar() + labs(x = "Chromosome",y="Count",fill="Feature")
+
+				# Save the plot to easily try new things:
+				basic <- ggplot(my_data,aes(x=chrom,fill=type)) + geom_bar() + labs(x = "Chromosome",y="Count",fill="Feature")
+				# Now when we run "basic" it makes the plot
+				basic
+
+				# Add theme with modifications to the basic plot, for instance with bigger text
+				basic + theme_gray(base_size = 20)
+				# But it only affects that plot, so the next plot we make is back to normal
+				basic
+
+				# You can also set a theme that will affect all the plots you make from now on
+				theme_set(theme_gray(base_size = 20))
+				basic
+
+				# To recover the default theme:
+				theme_set(theme_gray())
+				basic
+
+				# I prefer larger text myself
+				theme_set(theme_gray(base_size = 16))
+				basic
+
+				#==============================================================================
+				# Color palettes:
+
+				library(RColorBrewer)
+				display.brewer.all()
+
+				basic + scale_fill_brewer(palette="Set1")
+				basic + scale_fill_brewer(palette="Pastel1")
+				basic + scale_fill_brewer(palette="YlOrRd")
+
+				basic + scale_fill_manual(values = c("green","blue","red"))
+
+				colors()
+
+				# What happens if we need a lot of colors?
+				chrom_plot <- ggplot(my_data,aes(x=type,fill=chrom)) + geom_bar()
+				chrom_plot
+
+				# rainbow is confusing, but color palettes are too short:
+				chrom_plot + scale_fill_brewer(type="qual",palette=1)
+
+				# to get the colors from a palette:
+				palette1 <- brewer.pal(9,"Set1")
+				palette1
+
+				palette2 <- brewer.pal(8,"Set2")
+				palette2
+
+				palette3 <- brewer.pal(9,"Set3")
+				palette3
+
+				# We can use a quick pie chart to see the colors:
+				pie(rep(1,length(palette1)),col=palette1)
+				pie(rep(1,length(palette2)),col=palette2)
+				pie(rep(1,length(palette3)),col=palette3)
+
+				# We can just stick a few color palettes together
+				big_palette <- c(palette1,palette2,palette3)
+				big_palette
+
+				# Pie chart of all the colors together:
+				pie(rep(1,length(big_palette)),col=big_palette)
+
+				chrom_plot + scale_fill_manual(values = big_palette)
+
+				# To shuffle the colors:
+				chrom_plot + scale_fill_manual(values = sample(big_palette))
+
+				# if you want to keep the colors the same every time you plot,
+				# use set.seed()
+				set.seed(5)
+				# use different numbers until you find your favorite colors
+				chrom_plot + scale_fill_manual(values = sample(big_palette))
+
+				# This is possible, because:
+				# Fun fact: "Random" numbers from a computer aren't really random
+
+				# Color-blind safe palettes:
+				display.brewer.all(colorblindFriendly=TRUE)
+				# Mixing them might remove the color-friendly-ness so be careful
+				# Finding a set of 23 colors that a color-blind person can distinguish is a challenge
+
+				basic + scale_fill_brewer(palette="Set2")
+
+				# Done with colors
+				#======================================================================
+
+				# Default:
+				theme_set(theme_gray())
+
+				# Basic, normal plot:
+				basic
+
+				# Two basic themes:
+				basic + theme_gray() # the default
+				basic + theme_bw() # black and white
+
+				# Fonts and font sizes for everything at once
+				basic + theme_gray(base_size = 24, base_family = "Times New Roman")
+
+				# Font size for labels, tick labels, and legend separately ##############################
+				basic + theme(axis.text=element_text(size=20)) # numbers on axes
+				basic + theme(axis.title=element_text(size=20)) # titles on axes
+				basic + theme(legend.title=element_text(size=20)) # legend title
+				basic + theme(legend.text=element_text(size=20,family="Times New Roman"))
+				    # legend category labels
+
+				basic + theme(
+				    legend.text=element_text(size=20,family="Times New Roman"),
+				    axis.title=element_text(size=30),
+				    axis.text=element_text(size=20)
+				    ) # Mix and match
+
+				# Change background color
+				basic + theme(panel.background = element_rect(fill="pink"))
+				basic + theme(panel.background = element_rect(fill="white"))
+
+				# Change grid-lines
+				basic + theme(panel.grid.major = element_line(colour = "blue"), panel.grid.minor = element_line(colour = "red"))
+
+				    # Remove all gridlines:
+				basic + theme(panel.grid.major = element_line(NA),
+				              panel.grid.minor = element_line(NA))
+
+				    # Thin black major gridlines on y-axis, the others are removed
+				basic + theme(panel.grid.major.y = element_line(colour = "black",size=0.2),
+				              panel.grid.major.x = element_line(NA),
+				              panel.grid.minor = element_line(NA))
+
+				# Change tick-marks
+				basic # normal ticks
+				basic + theme(axis.ticks = element_line(size=2))
+				basic + theme(axis.ticks = element_line(NA))
+				basic + theme(axis.ticks = element_line(color="blue",size=2))
+				basic + theme(axis.ticks = element_line(size=2), # affects both x and y
+				              axis.ticks.x = element_line(color="blue"), # x only
+				              axis.ticks.y = element_line(color="red"))  # y only
+
+				# Place legend in different locations
+				basic + theme(legend.position="top")
+				basic + theme(legend.position="bottom")
+				basic + theme(legend.position=c(0,0)) # bottom left
+				basic + theme(legend.position=c(1,1)) # top right
+				basic + theme(legend.position=c(0.8,0.8)) # near the top right
+
+				# Remove legend title
+				basic + labs(fill="")
+				basic + labs(fill="") + theme(legend.position=c(0.8,0.8))
+
+				# Remove legend completely
+				basic + guides(fill=FALSE)
+
+				# clear background, axis lines but no box, no grid lines, basic colors, no legend
+				publication_style <- basic + guides(fill=FALSE) +  theme(axis.line = element_line(size=0.5),panel.background = element_rect(fill=NA,size=rel(20)), panel.grid.minor = element_line(colour = NA), axis.text = element_text(size=16), axis.title = element_text(size=18))
+
+				publication_style
+
+				publication_style + scale_y_continuous(expand=c(0,0)) # to stop the bars from floating above the x-axis
+
+				# You can set the theme with all these changes and have it apply to all the future plots
+				theme_set(theme_gray()+theme(axis.line = element_line(size=0.5),panel.background = element_rect(fill=NA,size=rel(20)), panel.grid.minor = element_line(colour = NA), axis.text = element_text(size=16), axis.title = element_text(size=18)))
+
+				basic
+
+				# These tweaks aren't part of the theme, so you will still have to add them separately to each plot
+				basic + scale_y_continuous(expand=c(0,0)) + guides(fill=FALSE)
+
+				# and you can always reset to defaults with:
+				theme_set(theme_gray())
+				basic
+				</pre>
+				<hr>
+
+				<h3>Lesson 6: Plot anything</h3>
+				Here is where you see the true magic of ggplot. It allows you to take the same data and quickly plot it in a bunch of different ways.
+				<ol>
+				<li>Bar charts</li>
+				<li>Histograms</li>
+				<li>Scatter plots</li>
+				<li>Box plots (box-and-whisker)</li>
+				<li>Violin plots</li>
+				<li>Log-scaling any plots</li>
+				<li>Dot plots (showing small count data, unfortunately not the same “dot plot” as we make for genome assemblies, though if you have a genome assembly and want to make a dot plot for it, I encourage you to check out <a href="http://genomeribbon.com" target="_blank">GenomeRibbon.com</a>, a genomics visualization web app I made as part of my PhD research :) )</li>
+				<li>Line plots (time-course plot)</li>
+				<li>Polar coordinate plots</li>
+				<li>Pie charts</li>
+				<li>Venn diagrams (intersections of gene lists)</li>
+				</ol>
+
+				<figure>
+					<iframe width="560" height="315" src="https://www.youtube.com/embed/nyN04l0npcI" frameborder="0" allowfullscreen></iframe>
+					<legend>
+						<a href="https://gum.co/PlottinginRforBiologists" target="_blank">Download practice data, scripts, and video files for offline viewing (for all 8 lessons)</a>
+					</legend>
+				</figure>
+				<pre>
+				# ==========================================================
+				#
+				#      Lesson 6 -- Plot anything
+				#      •   Bar plots
+				#      •   Histograms
+				#      •   Scatter plots
+				#      •   Box plots
+				#      •   Violin plots
+				#      •   Density plots
+				#      •   Dot plots
+				#      •   Line plots for time-course data
+				#      •   Pie charts
+				#      •   Venn diagrams (compare two or more lists of genes)
+				#
+				# ==========================================================
+
+				# ==========================================================
+				#
+				#      New data set for exploring plotting: variants
+				#
+				# ==========================================================
+
+				library(ggplot2)
+				theme_set(theme_gray(base_size = 18))
+
+				# Loading the data
+				filename <- "Lesson-06/variants_from_assembly.bed"
+
+				my_data <- read.csv(filename, sep="\t", quote='', stringsAsFactors=TRUE,header=FALSE)
+
+				head(my_data)
+
+				names(my_data)
+
+				names(my_data) <- c("chrom","start","stop","name","size","strand","type","ref.dist","query.dist")
+
+				head(my_data)
+				summary(my_data$chrom)
+
+				# Filtering and polishing data
+				my_data <- my_data[my_data$chrom %in% c(seq(1,22),"X","Y","MT"),]
+
+				    # ordering chromosomes
+				my_data$chrom <- factor(my_data$chrom, levels=c(seq(1,22),"X","Y","MT"))
+				    # ordering types
+				my_data$type <- factor(my_data$type, levels=c("Insertion","Deletion","Expansion","Contraction"))
+
+				####################################################################
+
+				# Creating a bar plot
+				ggplot(my_data, aes(x=chrom,fill=type)) + geom_bar()
+
+				# Creating a histogram
+				ggplot(my_data, aes(x=size,fill=type)) + geom_bar()
+				ggplot(my_data, aes(x=size,fill=type)) + geom_bar() + xlim(0,500)
+				ggplot(my_data, aes(x=size,fill=type)) + geom_bar(binwidth=5) + xlim(0,500)
+
+				# Creating scatter plot
+				ggplot(my_data, aes(x=ref.dist,y=query.dist)) + geom_point()
+				    # color by type (categorical)
+				ggplot(my_data, aes(x=ref.dist,y=query.dist,color=type)) + geom_point()
+				ggplot(my_data, aes(x=ref.dist,y=query.dist,color=type)) + geom_point() + xlim(-500,500) + ylim(-500,500)
+				    # color by size (numerical)
+				ggplot(my_data, aes(x=ref.dist,y=query.dist,color=size)) + geom_point() + xlim(-500,500) + ylim(-500,500)
+
+				ggplot(my_data, aes(x=ref.dist,y=query.dist,color=size)) + geom_point() + xlim(-500,500) + ylim(-500,500) + scale_colour_gradient(limits=c(0,500))
+
+				# Creating box plots
+				ggplot(my_data, aes(x=type,y=size)) + geom_boxplot()
+				ggplot(my_data, aes(x=type,y=size,fill=type)) + geom_boxplot()
+				ggplot(my_data, aes(x=type,y=size,fill=type)) + geom_boxplot() + coord_flip()
+
+				# Creating violin plots
+				ggplot(my_data, aes(x=type,y=size)) + geom_violin()
+				ggplot(my_data, aes(x=type,y=size,fill=type)) + geom_violin() + ylim(0,1000) + guides(fill=FALSE)
+				ggplot(my_data, aes(x=type,y=size,fill=type)) + geom_violin(adjust=0.2) + ylim(0,1000) + guides(fill=FALSE)
+				    # default adjust is 1, lower means finer resolution
+
+				# You can log-scale any numerical axis on any plot
+				ggplot(my_data, aes(x=type,y=size,fill=type)) + geom_violin() +
+				    scale_y_log10()
+
+				# Creating a density plot
+				ggplot(my_data, aes(x=size,fill=type)) + geom_density() + xlim(0,500)
+				    # similar to this histogram:
+				ggplot(my_data, aes(x=size,fill=type)) + geom_bar(binwidth=5) + xlim(0,500)
+
+				ggplot(my_data, aes(x=size,fill=type)) + geom_density(position="stack") + xlim(0,500)
+				ggplot(my_data, aes(x=size,fill=type)) + geom_density(alpha=0.5) + xlim(0,500)
+
+				# Sneak peak at Lesson 7: multifaceted plots:
+				ggplot(my_data, aes(x=size,fill=type)) + geom_density() + xlim(0,500) + facet_grid(type ~ .)
+
+				# Creating dot plots
+				ggplot(my_data, aes(x=size,fill=type)) + geom_dotplot()
+				    # a dot plot makes more sense with fewer observations where each individual item matters,
+				    # so let's grab the largest events only
+				large_data <- my_data[my_data$size>5000,  ] # [rows,columns]
+				ggplot(large_data, aes(x=size,fill=type)) + geom_dotplot(method="histodot")
+				# careful, they don't stack automatically, so some of the dots are behind others
+				ggplot(large_data, aes(x=size,fill=type)) + geom_dotplot(method="histodot",stackgroups=TRUE)
+
+				# Time-course data for line plot
+				filename <- "Lesson-06/time_course_data.txt"
+				time_course <- read.csv(filename, sep=",", quote='', stringsAsFactors=TRUE,header=TRUE)
+				time_course
+
+				# line plot:
+				ggplot(time_course, aes(x=seconds,y=value,colour=sample)) + geom_line()
+				ggplot(time_course, aes(x=seconds,y=value,colour=sample)) + geom_line(size=3)
+
+				# For fun:
+				# Any plot can be made in polar coordinates:
+				    # line plot
+				ggplot(time_course, aes(x=seconds,y=value,colour=sample)) + geom_line(size=3) + coord_polar()
+
+				    # violin plot
+				ggplot(my_data, aes(x=type,y=size,fill=type)) + geom_violin(adjust=0.5) + ylim(0,1000) + coord_polar()
+				    # bar plot
+				ggplot(my_data, aes(x=size,fill=type)) + geom_bar(binwidth=5) + xlim(0,500) + coord_polar()
+
+				# Pie charts
+				type_counts = summary(my_data$type)
+				type_counts
+
+				pie(type_counts)
+				pie(type_counts,col=brewer.pal(length(type_counts),"Set1"))
+
+				# Gene lists for Venn Diagram
+				listA <- read.csv("Lesson-06/genes_list_A.txt",header=FALSE)
+				A <- listA$V1
+				A
+
+				listB <- read.csv("Lesson-06/genes_list_B.txt",header=FALSE)
+				B <- listB$V1
+				B
+
+				listC <- read.csv("Lesson-06/genes_list_C.txt",header=FALSE)
+				C <- listC$V1
+				C
+
+				listD <- read.csv("Lesson-06/genes_list_D.txt",header=FALSE)
+				D <- listD$V1
+				D
+
+				length(A)
+				length(B)
+				length(C)
+				length(D)
+
+				# install package VennDiagram
+				library(VennDiagram)
+
+				# This function only works by saving directly to a file
+
+				venn.diagram(list("list C"=C, "list D"=D), fill = c("yellow","cyan"), cex = 1.5, filename="Lesson-06/Venn_diagram_genes_2.png")
+
+				venn.diagram(list(A = A, C = C, D = D), fill = c("yellow","red","cyan"), cex = 1.5,filename="Lesson-06/Venn_diagram_genes_3.png")
+
+				venn.diagram(list(A = A, B = B, C = C, D = D), fill = c("yellow","red","cyan","forestgreen"), cex = 1.5,filename="Lesson-06/Venn_diagram_genes_4.png")
+
+				</pre>
+				<hr>
+
+				<h3>Lesson 7: Multifaceted and inset figures</h3>
+				Splitting up your data by category into multiple plots arranged in rows, columns, or even tables.
+				Also making a figure inset into another figure, such as a zoomed in view in the upper right corner.
+
+				<figure>
+					<iframe width="560" height="315" src="https://www.youtube.com/embed/9hbsu8vgnt0" frameborder="0" allowfullscreen></iframe>
+					<legend>
+						<a href="https://gum.co/PlottinginRforBiologists" target="_blank">Download practice data, scripts, and video files for offline viewing (for all 8 lessons)</a>
+					</legend>
+				</figure>
+				<pre>
+				# ==========================================================
+				#
+				#      Lesson 7 -- Multifaceted figures
+				#      •   Grids of plots by chromosome, variant type, etc.
+				#      •   Make a figure as an inset in another figure
+				#          automatically -- without Photoshop or Illustrator
+				#
+				# ==========================================================
+
+				library(ggplot2)
+				# reset theme
+				theme_set(theme_gray())
+
+				# Loading the data
+				filename <- "Lesson-07/variants_from_assembly.bed"
+				my_data <- read.csv(filename, sep="\t", quote='', stringsAsFactors=TRUE,header=FALSE)
+				names(my_data) <- c("chrom","start","stop","name","size","strand","type","ref.dist","query.dist")
+
+				head(my_data)
+
+				# Filtering and polishing data
+				my_data <- my_data[my_data$chrom %in% c(seq(1,22),"X","Y","MT"),]
+
+				    # ordering chromosomes
+				my_data$chrom <- factor(gsub("chr", "", my_data$chrom), levels=c(seq(1,22),"X","Y","MT"))
+
+				    # ordering types
+				my_data$type <- factor(my_data$type, levels=c("Insertion","Deletion","Expansion","Contraction"))
+
+				############# Multifacetting figures ############
+
+				ggplot(my_data, aes(x=size,fill=type)) + geom_density(alpha=0.5) + xlim(0,500)
+
+				ggplot(my_data, aes(x=size,fill=type)) + geom_density() + xlim(0,500)  + facet_grid(type ~ .)
+
+				ggplot(my_data, aes(x=size,fill=type)) + geom_density() + xlim(0,500)  + facet_grid(. ~ type)
+
+				# plot + facet_grid(rows ~ columns)
+
+				# Facet on type and chrom
+				ggplot(my_data, aes(x=size,fill=type)) + geom_density() + xlim(0,500)  + facet_grid(chrom ~ type)
+
+				ggplot(my_data, aes(x=size,fill=type)) + geom_density() + xlim(0,500)  + facet_grid(type ~ chrom)
+
+				# Not always pretty, but it sure is fun
+				ggplot(my_data, aes(x=size,fill=type)) + geom_bar() + xlim(0,500)  + facet_grid(chrom ~ type)
+
+				ggplot(my_data, aes(x=type,y=size,color=type,fill=type)) + geom_boxplot() + facet_grid(chrom ~ .)
+
+				ggplot(my_data, aes(x=type,y=size,color=type,fill=type)) + geom_violin() + facet_grid(chrom ~ .)
+
+				ggplot(my_data, aes(x=ref.dist,y=query.dist,color=type,fill=type)) + xlim(0,500) + ylim(0,500) + geom_point() + facet_grid(chrom ~ type)
+
+				ggplot(my_data, aes(x=size,fill=type)) + geom_dotplot() + xlim(5000,10000) + facet_grid(chrom ~ type)
+
+				# Inset figures:
+
+				# Our special publication-style theme from Lesson 5 "Tweaking everything in your plots"
+				theme_set(theme_gray() +
+				              theme(
+				                  axis.line = element_line(size=0.5),
+				                  panel.background = element_rect(fill=NA,size=rel(20)),
+				                  panel.grid.minor = element_line(colour = NA),
+				                  axis.text = element_text(size=16),
+				                  axis.title = element_text(size=18)
+				                  )
+				          )
+
+				big_plot <-  ggplot(my_data, aes(x=size,fill=type)) +
+				    geom_bar(binwidth=100) +
+				    guides(fill=FALSE) +
+				    scale_y_continuous(expand=c(0,0)) # Move bars down to X-axis
+
+				big_plot
+
+				small_plot <- ggplot(my_data, aes(x=size,fill=type)) + geom_bar(binwidth=5) + xlim(0,500) + theme(axis.title=element_blank()) +  scale_y_continuous(expand=c(0,0))
+				small_plot
+
+				# Where to put the smaller plot:
+				library(grid)
+				vp <- viewport(width = 0.8, height = 0.7, x = 0.65, y = 0.65)
+				                # width, height, x-position, y-position of the smaller plot
+
+				png("Lesson-07/inset_plot.png")
+				print(big_plot)
+				print(small_plot, vp = vp)
+				dev.off()
+				</pre>
+				<hr>
+
+				<h3>Lesson 8: Heatmaps</h3>
+				How to create everything from simple heatmaps to adding different clustering and trees, partitions, and labels on the sides.
+
+				<figure>
+					<iframe width="560" height="315" src="https://www.youtube.com/embed/gu9pTq9U2iU" frameborder="0" allowfullscreen></iframe>
+					<legend>
+						<a href="https://gum.co/PlottinginRforBiologists" target="_blank">Download practice data, scripts, and video files for offline viewing (for all 8 lessons)</a>
+					</legend>
+				</figure>
+				<pre>
+				# ==========================================================
+				#
+				#      Lesson 8 -- Heatmaps
+				#      •   Dendrograms
+				#      •   To cluster or not to cluster
+				#      •   Flipping axes
+				#      •   Specifying distance calculation and clustering methods
+				#      •   Annotate sides of heatmap with associated data
+				#          (chromosomes, genders, samples)
+				#      •   Coloring branches in dendrograms
+				#
+				# ==========================================================
+				# The ComplexHeatmap package is downloaded from the bioconductor website, not from the packages tab like we did with the other packages
+				# https://bioconductor.org/packages/release/bioc/html/ComplexHeatmap.html
+
+				# Run the first time to install:
+				# source("https://bioconductor.org/biocLite.R")
+				# biocLite("ComplexHeatmap")
+
+				library(ComplexHeatmap)
+
+				# Heatmap from single-cell copy number data
+
+				# Select a data file
+				filename <- "Lesson-08/copy_number_data.txt"
+
+				# Read the data into a data.frame
+				my_data <- read.table(filename, sep="\t", quote="", stringsAsFactors=FALSE,header=TRUE)
+
+				head(my_data)
+
+				dim(my_data) # (rows columns)
+
+				nrow(my_data) # rows: locations (bins) in genome
+				ncol(my_data) # columns: cells
+
+				# Make the heatmap data into a matrix
+				my_matrix <- as.matrix(my_data[  ,c(4:100)]) # [all rows, columns 4-100]
+				# leave out the first 3 columns (chrom,start,end) since they don't belong in the heatmap itself
+
+				# We can check the classes:
+				class(my_data)
+				class(my_matrix)
+
+				head(my_matrix)
+
+				# Save chromosome column for annotating the heatmap later
+				chromosome_info <- data.frame(chrom = my_data$CHR)
+				chromosome_info
+
+				## Now we make our first heatmap
+
+				# Default parameters
+				Heatmap(my_matrix)
+
+				# Flip rows and columns around
+				my_matrix <- t(my_matrix)  # "transpose"
+				Heatmap(my_matrix)
+
+				# Keep genome bins in order, not clustered
+				Heatmap(my_matrix, cluster_columns=FALSE)
+
+				fontsize <- 0.6
+
+				# Put cell labels on the left side
+				Heatmap(my_matrix, cluster_columns=FALSE,
+				        row_names_side = "left",
+				        row_hclust_side = "left",
+				        row_names_gp=gpar(cex=fontsize))
+
+				# Make the dendrogram wider
+				Heatmap(my_matrix,
+				        cluster_columns=FALSE,
+				        row_names_side = "left",
+				        row_hclust_side = "left",
+				        row_names_gp=gpar(cex=fontsize),
+				        row_hclust_width = unit(3, "cm"))
+
+				# Different distance calculation methods
+				# "euclidean", "maximum", "manhattan", "canberra", "binary", "minkowski", "pearson", "spearman", "kendall"
+				# euclidean is the default
+
+				# Different clustering methods
+				# "ward.D", "ward.D2", "single", "complete", "average" (= UPGMA), "mcquitty" (= WPGMA), "median" (= WPGMC) or "centroid" (= UPGMC)
+
+				# Watch the dendrogram and heatmap change when we change the methods
+				Heatmap(my_matrix,
+				        cluster_columns=FALSE,
+				        row_names_side = "left",
+				        row_hclust_side = "left",
+				        row_names_gp=gpar(cex=fontsize),
+				        row_hclust_width = unit(3, "cm"),
+				        clustering_distance_rows ="maximum",
+				        clustering_method_rows = "ward.D")
+
+				# Coloring clusters in dendrogram
+
+				# install dendextend
+				library(dendextend)
+				# Need to build dendrogram first so we can use it for the color_brances() function
+				# 1. calculate distances (method="maximum")
+				# 2. cluster (method="ward.D")
+				dend = hclust(dist(my_matrix,method="maximum"),method="ward.D")
+
+				Heatmap(my_matrix,
+				        cluster_columns=FALSE,
+				        row_names_side = "left",
+				        row_hclust_side = "left",
+				        row_names_gp=gpar(cex=fontsize),
+				        row_hclust_width = unit(3, "cm"),
+				        cluster_rows = color_branches(dend, k = 3))
+
+				# We can split the heatmap into clusters
+
+				Heatmap(my_matrix,
+				        cluster_columns=FALSE,
+				        row_names_side = "left",
+				        row_hclust_side = "left",
+				        row_names_gp=gpar(cex=fontsize),
+				        row_hclust_width = unit(3, "cm"),
+				        clustering_distance_rows ="maximum",
+				        clustering_method_rows = "ward.D",
+				        km=2) # number of clusters you want
+
+				# Split columns of plot up into chromosomes using extra_info
+				chromosome_info
+
+				chromosome.colors <- c(rep(c("black","white"),11),"red")
+				chromosome.colors
+
+				names(chromosome.colors) <- paste("chr",c(seq(1,22),"X"),sep="")
+				chromosome.colors
+
+				Heatmap(my_matrix,
+				        cluster_columns=FALSE,
+				        row_names_side = "left",
+				        row_hclust_side = "left",
+				        row_names_gp=gpar(cex=fontsize),
+				        row_hclust_width = unit(3, "cm"),
+				        clustering_distance_rows ="maximum",
+				        clustering_method_rows = "ward.D",
+				        km=2, # number of clusters you want
+				        bottom_annotation = HeatmapAnnotation(chromosome_info,col = list(chrom=chromosome.colors),show_legend=FALSE)
+				        )
+				</pre>
+
+
+				<a href="https://gum.co/PlottinginRforBiologists" target="_blank">Download practice data, scripts, and video files for offline viewing (for all 8 lessons)</a>
+
+				Hi there!
+
+				Whew, you made it all the way to the bottom. Congrats!
+				I hope you have enjoyed this course on Plotting in R for Biologists.
+				If you found it useful and you want contribute something to help me make more videos in the future you can <a href="https://gum.co/PlottinginRforBiologists" target="_blank">buy this course</a> and get all the scripts, practice data, and videos that you can download and watch offline. 
+				Do you have any friends or colleagues who might like to take this course? 
+				Please share it with them.
+
+				Thanks a bunch!
+				Maria
+			</div>
+		</div>
+		<!-- END .gtco-services -->
+	</div>
+
+	<!-- jQuery -->
+	<script src="js/jquery.min.js"></script>
+	<!-- jQuery Easing -->
+	<script src="js/jquery.easing.1.3.js"></script>
+	<!-- Bootstrap -->
+	<script src="js/bootstrap.min.js"></script>
+	<!-- Waypoints -->
+	<script src="js/jquery.waypoints.min.js"></script>
+	<!-- Carousel -->
+	<script src="js/owl.carousel.min.js"></script>
+	<!-- Magnific Popup -->
+	<script src="js/jquery.magnific-popup.min.js"></script>
+	<script src="js/magnific-popup-options.js"></script>
+	<!-- Main -->
+	<script src="js/main.js"></script>
+
+	</body>
+</html>
